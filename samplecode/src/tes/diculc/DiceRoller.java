@@ -75,7 +75,7 @@ public class DiceRoller {
 				break;
 			}
 			sb.append(String.valueOf(rnd.nextInt(m) + plus));
-			if(n-i < 2){
+			if(n-i > 1){
 				sb.append(",");
 			}
 		}

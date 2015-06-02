@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JTextField;
 
 public class inputButtons {
@@ -35,6 +36,12 @@ public class inputButtons {
 	protected CulcButton waruB;
 	protected CulcButton kakkoAB;
 	protected CulcButton kakkoBB;
+
+	protected CulcButton d6B;
+	protected CulcButton d10B;
+	protected CulcButton d20B;
+	protected CulcButton d66B;
+	protected CulcButton simpleDB;
 
 	public CulcButton getNumber0Button() {
 		if(number0B == null){
@@ -135,6 +142,38 @@ public class inputButtons {
 		return kakkoBB;
 	}
 
+
+	public CulcButton getD6Button() {
+		if(d6B == null){
+			d6B = new CulcButton(Const.DMARK+"6", Const.DICE);
+		}
+		return d6B;
+	}
+	public CulcButton getD10Button() {
+		if(d10B == null){
+			d10B = new CulcButton(Const.DMARK+"10", Const.DICE);
+		}
+		return d10B;
+	}
+	public CulcButton getD20Button() {
+		if(d20B == null){
+			d20B = new CulcButton(Const.DMARK+"20", Const.DICE);
+		}
+		return d20B;
+	}
+	public CulcButton getD66Button() {
+		if(d66B == null){
+			d66B = new CulcButton(Const.DMARK+"66", Const.DICE);
+		}
+		return d66B;
+	}
+	public CulcButton getSimpleDBButton() {
+		if(simpleDB == null){
+			simpleDB = new CulcButton(Const.DMARK, Const.DICE);
+		}
+		return simpleDB;
+	}
+
 	public void setListener(CulcButton target) {
 		ActionListener l = new ActionListener() {
 			@Override
@@ -175,23 +214,68 @@ public class inputButtons {
 	}
 	public List<CulcButton> getButtunList(){
 		List<CulcButton> list  = new ArrayList<CulcButton>();
+		list.add(getD6Button());
 		list.add(getNumber1Button());
 		list.add(getNumber2Button());
 		list.add(getNumber3Button());
+
+		list.add(getD10Button());
 		list.add(getNumber4Button());
 		list.add(getNumber5Button());
 		list.add(getNumber6Button());
+
+		list.add(getD20Button());
 		list.add(getNumber7Button());
 		list.add(getNumber8Button());
 		list.add(getNumber9Button());
+
+		list.add(getSimpleDBButton());
+		list.add(getKakkoAButton());
 		list.add(getNumber0Button());
+		list.add(getKakkoBButton());
+
 		list.add(getTasuButton());
 		list.add(getHikuButton());
 		list.add(getKakeruButton());
 		list.add(getWaruButton());
-		list.add(getKakkoAButton());
-		list.add(getKakkoBButton());
+
+
 		return list;
 	}
+
+	JButton culcButton;
+	public JButton getCulcButton() {
+		if(culcButton == null){
+			culcButton = new JButton("計算");
+			culcButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(fomula.conteinsDice()){
+						resultBox.setText(fomula.CulcDice());
+					}
+					fomula.
+				}
+			});
+		}
+		return culcButton;
+	}
+
+	JButton clearButton;
+	public JButton getClearButton() {
+		if(clearButton == null){
+			clearButton = new JButton("クリア");
+			clearButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					fomula.fomula.clear();
+					resultBox.setText("");
+				}
+			});
+		}
+		return clearButton;
+	}
+
 
 }

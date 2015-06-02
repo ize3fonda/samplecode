@@ -3,7 +3,7 @@ package tes.diculc;
 import java.util.Vector;
 
 public class Fomula {
-	Vector<FomulaParts> fomula;
+	protected Vector<FomulaParts> fomula;
 	Fomula(){
 		fomula = new Vector<FomulaParts>();
 	}
@@ -50,7 +50,7 @@ public class Fomula {
 
 		return id;
 	}
-
+/*
 	void input(int id , String Value){
 		switch (id) {
 		case Const.NUMBER:
@@ -67,7 +67,7 @@ public class Fomula {
 			break;
 		}
 	}
-
+*/
 	public boolean isNumber(String val) {
 		try {
 			Integer.parseInt(val);
@@ -79,9 +79,10 @@ public class Fomula {
 	public void add(int id, String value) {
 		if(fomula.size() < 1){
 			//初回登録
-			if(!(id == Const.SIGN && value.equals(Const.KAKKOA)
-					)){
-				return;
+			if(id == Const.SIGN){
+				if(!value.equals(Const.KAKKOA)){
+					return;
+				}
 			}
 			fomula.addElement(new FomulaParts(id, value));
 			return;
@@ -97,6 +98,7 @@ public class Fomula {
 			if(id == Const.DICE){
 				//ダイスなら続ける
 				fomula.lastElement().value += value;
+				fomula.lastElement().id = Const.DICE;
 				return;
 			}
 			if(id == Const.SIGN){
@@ -106,7 +108,7 @@ public class Fomula {
 			}
 		}
 		if(lastid == Const.DICE){
-			//数式末尾が数字
+			//数式末尾がダイス
 			if(id == Const.NUMBER){
 				//数値なら後に続ける
 				fomula.lastElement().value += value;
@@ -119,9 +121,11 @@ public class Fomula {
 			}
 		}
 		if(lastid == Const.SIGN){
+			//数式末尾が記号
 			if(!fomula.lastElement().value.equals(Const.KAKKOA) &&
 					!fomula.lastElement().value.equals(Const.KAKKOB) &&
 					value.equals(Const.KAKKOA)){
+				//記号直後の入力がかっこなら
 				fomula.addElement(new FomulaParts(id, value));
 				return;
 			}
@@ -145,6 +149,52 @@ public class Fomula {
 		return sb.toString();
 	}
 
+	public boolean conteinsDice(){
+		for(FomulaParts fp : fomula){
+			if(fp.id == Const.DICE)
+				return true;
+		}
+		return false;
+	}
+	public String CulcDice() {
+		for(FomulaParts fp : fomula){
+			if(fp.id == Const.DICE){
+				fp.value = DiceRoller.roll(fp.value);
+				fp.id = Const.NUMBER;
+			}
+		}
+		return this.toString();
+	}
+	
+	public String getResult(){
+		int resultInt = 0;
+		resultInt = culcFomula(fomula);
+		return String.valueOf(resultInt);
+	}
+
+	private int culcFomula(Vector<FomulaParts> vec) {
+		int vecSize = vec.size();
+		for(int i = 0; i < vecSize; i++){
+			FomulaParts fp = vec.get(i);
+			if(fp.value.equals(Const.KAKKOA)){
+				int closeIdx = i;
+				for(int j = vec.size(); j - 1 > i; j--){
+					FomulaParts fp2 = vec.get(j -1);
+					if(fp2.value.equals(Const.KAKKOB)){
+						closeIdx = j-1;
+					}
+				}
+				Vector<FomulaParts> tmpVec = new Vector<FomulaParts>();
+				for(int k = i + 1; k < closeIdx; k++){
+					tmpVec.add(vec.get(k));
+					
+				}
+				
+			}
+		}
+		// TODO 自動生成されたメソッド・スタブ
+		return 0;
+	}
 
 	private class FomulaParts{
 		String value;

@@ -43,13 +43,24 @@ public class CulcBody {
 			ib.setListener(comp);
 			panel.add(comp, gb);
 			x++;
-			if(x > 2){
+			if(x > 3){
 				y++;
 				x = 0;
 			}
 		}
+		GridBagConstraints gbQ = new GridBagConstraints();
+		gbQ.gridx = 0;
+		gbQ.gridwidth = 4;
+		gbQ.gridy = y++;
+		panel.add(ib.getCulcButton(), gbQ);
+		gbQ = new GridBagConstraints();
+		gbQ.gridx = 0;
+		gbQ.gridwidth = 4;
+		gbQ.gridy = y++;
+		panel.add(ib.getClearButton(), gbQ);
 
 		return panel;
 
 	}
+
 }
